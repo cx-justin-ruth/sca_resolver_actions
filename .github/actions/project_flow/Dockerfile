@@ -8,3 +8,4 @@ COPY application.yml /app/application.yml
 #Make it executable
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
+#
