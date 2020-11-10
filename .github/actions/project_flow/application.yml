@@ -68,3 +68,4 @@ csv:
       name: severity
     - header: Similarity ID
       name: similarity-id
+      
