@@ -22,7 +22,7 @@ jobs:
       uses: ./.github/actions/project_flow
       with:
         project: jr_${{ github.event.repository.name }}
-        team: ''
+        team: '/CxServer'
         checkmarx_url: ${{ secrets.CHECKMARX_URL }}
         checkmarx_username: ${{ secrets.CHECKMARX_USERNAME }}
         checkmarx_password: ${{ secrets.CHECKMARX_PASSWORD }}
