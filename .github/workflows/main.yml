@@ -17,6 +17,13 @@ jobs:
       run: echo ::set-env name=ORG_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    # Runs SCA Resolver to start scan.
+    - name: Shell to download resolver and run scan based on repo.
+      run: | 
+        wget -O ScaResolver-linux64.tar.gz https://sca-downloads.s3.amazonaws.com/cli/1.2.3/ScaResolver-linux64.tar.gz
+        mkdir ./resolver
+        tar -xf ScaResolver-linux64.tar.gz --directory ./resolver
+        ./resolver/ScaResolver -s ./ -e resolver -u ${{ secrets.CHECKMARX_SCA_USER }} -p ${{ secrets.CHECKMARX_SCA_PASSWORD }} -a ${{ secrets.CHECKMARX_SCA_ACCOUNT }} -n jr_${{ github.event.repository.name }} 
     # Runs the Checkmarx Scan leveraging the latest version of CxFlow - REFER to Action README for list of inputs
     - name: Checkmarx CxFlow Action
       uses: ./.github/actions/project_flow
