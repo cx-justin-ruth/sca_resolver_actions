@@ -1,0 +1,84 @@
+name: 'Checkmarx CxFlow Action - Project Mode'
+description: 'Kick off SCA scan with resolver for private dependencies, and use cxflow in project mode to obtain latest results.'
+author: 'Checkmarx Technical Services'
+inputs:
+  checkmarx_url:
+    required: true
+    description: 'Provide Checkmarx URL'
+    default: ''
+  team:
+    required: true
+    description: 'Select a Checkmarx Team'
+    default: '\CxServer\SP\Company'
+  checkmarx_username:
+    required: true
+    description: 'Provide Checkmarx Username'
+    default: ''
+  checkmarx_password:
+    required: true
+    description: 'Provide Checkmarx Password'
+    default: ''
+  checkmarx_client_secret:
+    required: true
+    description: 'Provide Checkmarx Client Secret'
+    default: ''
+  project:
+    required: true
+    default: ''
+    description: 'Select a Checkmarx Project'
+  app:
+    required: false
+    default: 'SampleApp'
+    description: 'Select an Application Name used by downstream bug tracker systems'  
+  preset:
+    required: false
+    default: 'Checkmarx Default'
+    description: 'Select a Checkmarx Preset'
+  break_build:
+    required: false
+    default: false
+    description: 'Break build based on Checkmarx findings?'
+  incremental:
+    required: false
+    default: true
+    description: 'Incremental Scans?'
+  params:
+    required: false
+    default: ''
+    description: 'Additional CLI parameters'
+  github_token:
+    required: false
+    default: ''
+    description: 'GitHub API Token'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.team }}
+    - ${{ inputs.project }}
+    - ${{ inputs.app }}
+    - ${{ inputs.checkmarx_username }}
+    - ${{ inputs.checkmarx_password }}
+    - ${{ inputs.checkmarx_client_secret }}
+    - ${{ inputs.checkmarx_url }}
+    - ${{ inputs.preset }}
+    - ${{ inputs.incremental }}
+    - ${{ inputs.break_build }}
+    - ${{ inputs.params }}
+    - ${{ inputs.github_token }}
+  env:
+    TEAM: "${{ inputs.team }}"
+    PROJECT: ${{ inputs.project }}
+    APP: ${{ inputs.app }}
+    CHECKMARX_USERNAME: ${{ inputs.checkmarx_username }}
+    CHECKMARX_PASSWORD: ${{ inputs.checkmarx_password }}
+    CHECKMARX_CLIENT_SECRET: ${{ inputs.checkmarx_client_secret }}
+    CHECKMARX_BASE_URL: ${{ inputs.checkmarx_url }}
+    CHECKMARX_SCAN_PRESET: ${{ inputs.preset }}
+    CHECKMARX_INCREMENTAL: ${{ inputs.incremental }}
+    CX_FLOW_BREAK_BUILD: ${{ inputs.break_build }}
+    CXFLOW_PARAMS: ${{ inputs.params }}
+    GITHUB_TOKEN: ${{ inputs.github_token }}
+branding:
+  icon: 'check'
+  color: 'green'
